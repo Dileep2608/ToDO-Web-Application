@@ -1,0 +1,168 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: auto; 
+    /* height: 100vh; */
+    min-height: 100vh;
+}
+
+.login-container, .main-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    width: 400px;
+    text-align: center;
+}
+
+.login-container h1, .main-container h1 {
+    margin-bottom: 20px;
+}
+
+input[type="text"], input[type="password"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    height: 40px;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #28a745;
+    color: white;
+    cursor: pointer;
+    height: 40px;
+    box-sizing: border-box;
+    vertical-align: middle; /* Ensure vertical alignment */
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+.todo-input form {
+    display: flex; 
+    width: 100%;
+}
+
+.todo-input {
+    display: flex;
+    align-items: center; /* Ensure vertical alignment */
+    margin-bottom: 20px;
+}
+
+.todo-input input {
+    flex: 1;
+    margin-right: 10px;
+    padding: 10px; /* Optional: for better usability */
+    font-size: 16px; /* Optional: adjust font size */
+}
+
+.todo-input button {
+    padding: 10px 20px; /* Increase the button padding */
+    font-size: 16px; /* Match font size with input */
+    position: relative;
+    top: 8px; /* Adjust this value to position the button slightly above */
+}
+
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.task-item, .subtask-item {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.task-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.task-item span {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.task-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.subtask-list {
+    margin-top: 10px;
+    margin-left: 20px;
+    width: calc(100% - 40px); /* Increased width */
+}
+
+.subtask-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+    width: 100%;
+}
+
+.subtask-item span {
+    font-size: 16px;
+}
+
+.subtask-buttons {
+    display: flex;
+    gap: 5px;
+}
+
+.subtask-input {
+    display: flex;
+    align-items: center; /* Ensure vertical alignment */
+    margin-top: 10px;
+    margin-left: 20px; /* Added margin */
+    width: calc(100% - 40px); /* Increased width */
+}
+
+.subtask-input input {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.task-item.completed span, .subtask-item.completed span {
+    text-decoration: line-through;
+    color: #999;
+}
+
+.signout-button {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.signout-button button {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+.signout-button button:hover {
+    background-color: #d32f2f;
+}
+

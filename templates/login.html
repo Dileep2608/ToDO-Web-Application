@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="login-container">
+        <h1>Todo App</h1>
+        <h1>Login</h1>
+        <form action="{{ url_for('handle_login') }}" method="POST">
+            <label for="userId">User ID</label>
+            <input type="text" id="userId" name="userId" required>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit">Login</button>
+        </form>
+        <h4>New User : <a href="/signup">Signup Here</a></h4>
+        <h5>Made with ❤ by Dileep, Midhun, Jayanth, Saurav</h5>
+        <h5>Data Base Systems and Programming MINI PROJECT</h5>
+    </div>
+    
+</body>
+</html>

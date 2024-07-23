@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="main-container">
+        <h1>Todo App</h1>
+        <h1>Welcome, {{ user_name }}</h1>
+<div class="todo-input">
+    <form action="{{ url_for('add_task') }}" method="POST">
+        <input type="text" name="task" placeholder="Add a new task..." required>
+        <button type="submit">Add</button>
+    </form>
+</div>
+<ul id="taskList">
+    {% for task in tasks %}
+        <li class="task-item" data-task-id="{{ task['task_id'] }}">
+            <span>{{ task['task'] }}</span>
+            <div class="task-buttons">
+                <button onclick="editTask(this)">Edit</button>
+                <button onclick="completeTask(this)">Complete</button>
+            </div>
+            <ul class="subtask-list">
+                {% for subtask in task['subtasks'] %}
+                    <li class="subtask-item" data-subtask-id="{{ subtask['subtask_id'] }}">
+                        <span>{{ subtask['subtask'] }}</span>
+                        <div class="subtask-buttons">
+                            <button onclick="editSubtask(this)">Edit</button>
+                            <button onclick="completeSubtask(this)">Complete</button>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+            <div class="subtask-input">
+                <input type="text" placeholder="Add a subtask...">
+                <button onclick="addSubtask(this)">Add</button>
+            </div>
+        </li>
+    {% endfor %}
+</ul>
+
+        <div class="signout-button">
+            <button onclick="window.location.href='/logout'">Sign Out</button>
+        </div>
+
+        <h5>Made with ❤ by Dileep, Midhun, Jayanth, Saurav</h5>
+        <h5>Data Base Systems and Programming MINI PROJECT</h5>
+    </div>
+
+    
+
+    <script>
+        function editTask(button) {
+            const taskItem = button.closest('.task-item');
+            const taskId = taskItem.getAttribute('data-task-id');
+            const taskText = taskItem.querySelector('span').innerText;
+            const newTaskText = prompt('Edit Task', taskText);
+            if (newTaskText !== null) {
+                fetch('/edit_task', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `task_id=${taskId}&new_task=${newTaskText}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        taskItem.querySelector('span').innerText = newTaskText;
+                    } else {
+                        alert('Failed to edit task');
+                    }
+                });
+            }
+        }
+
+        function completeTask(button) {
+            const taskItem = button.closest('.task-item');
+            const taskId = taskItem.getAttribute('data-task-id');
+            fetch('/delete_task', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `task_id=${taskId}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    taskItem.remove();
+                } else {
+                    alert('Failed to delete task');
+                }
+            });
+        }
+
+        function addSubtask(button) {
+            const taskItem = button.closest('.task-item');
+            const taskId = taskItem.getAttribute('data-task-id');
+            const subtaskInput = button.previousElementSibling;
+            const subtaskText = subtaskInput.value;
+            if (subtaskText === '') return;
+
+            fetch('/add_subtask', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `task_id=${taskId}&subtask=${subtaskText}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const subtaskList = taskItem.querySelector('.subtask-list');
+                    const subtaskItem = document.createElement('li');
+                    subtaskItem.className = 'subtask-item';
+                    subtaskItem.innerHTML = `
+                        <span>${subtaskText}</span>
+                        <div class="subtask-buttons">
+                            <button onclick="editSubtask(this)">Edit</button>
+                            <button onclick="completeSubtask(this)">Complete</button>
+                        </div>
+                    `;
+                    subtaskList.appendChild(subtaskItem);
+                    subtaskInput.value = '';
+                } else {
+                    alert('Failed to add subtask');
+                }
+            });
+        }
+
+        function editSubtask(button) {
+        const subtaskItem = button.closest('.subtask-item');
+        const subtaskId = subtaskItem.getAttribute('data-subtask-id');
+        const subtaskText = subtaskItem.querySelector('span').innerText;
+        const newSubtaskText = prompt('Edit Subtask', subtaskText);
+        if (newSubtaskText !== null) {
+            fetch('/edit_subtask', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `subtask_id=${subtaskId}&new_subtask=${newSubtaskText}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    subtaskItem.querySelector('span').innerText = newSubtaskText;
+                } else {
+                    alert('Failed to edit subtask');
+                }
+            });
+        }
+    }
+
+    function completeSubtask(button) {
+        const subtaskItem = button.closest('.subtask-item');
+        const subtaskId = subtaskItem.getAttribute('data-subtask-id');
+        fetch('/delete_subtask', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `subtask_id=${subtaskId}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                subtaskItem.remove();
+            } else {
+                alert('Failed to delete subtask');
+            }
+        });
+    }
+    </script>
+</body>
+</html>
